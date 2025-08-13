@@ -1,0 +1,15 @@
+{% extends "index.html" %}
+{% block inicio %}
+    <a href="{% url 'adminDashboard' %}"><i class="fas fa-home"></i> Início</a>
+    <a href="{% url 'perfil' %}"><i class="fas fa-user"></i> Perfil</a>
+{% endblock inicio %}
+{% block content %}
+<div class="Box">
+    <h1>ERRO</h1>
+    <p>Parece que algo deu errado, procure o suporte e informe o ocorrido.</p>
+    
+</div>
+<div style="display: flex; justify-content: center;">
+<a href="{% url "login" %}"><button class="blueButton"> Voltar</button></a>
+</div>
+{% endblock content %}

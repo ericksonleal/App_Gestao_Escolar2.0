@@ -1,0 +1,177 @@
+{% extends "index.html" %}
+{% block inicio %}
+    <a href="{% url 'adminDashboard' %}"><i class="fas fa-home"></i> Início</a>
+    <a href="{% url 'perfil' %}"><i class="fas fa-user"></i> Perfil</a>
+{% endblock inicio %}
+{% block content %}
+    <body>
+        <div class="container mt-4">
+            <div class="parteCima">
+                <div class="alunoDetalhes">
+                    <table class="alunoTable">
+                        <tr>
+                            <td><strong>Aluno:</strong></td>
+                            <td>{{ aluno.nome }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Idade:</strong></td>
+                            <td>{{ aluno.idade }} anos</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Responsável:</strong></td>
+                            <td>{{ aluno.responsavel }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>CPF do Responsável:</strong></td>
+                            <td>{{ aluno.cpf_responsavel }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Telefone:</strong></td>
+                            <td>{{ aluno.telefone }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ações:</strong></td>
+                            <td>
+                                <a href="{% url 'editarAluno' aluno_id=aluno.id %}">
+                                    <button class="button">Editar Aluno</button></a>
+                                <a href="{% url 'aplicarDesconto' aluno.id %}">
+                                    <button class="buttonPago" style="margin-top: 10px; margin-bottom: -10px;">Aplicar desconto</button>
+                                </a>
+                            </td>
+
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <h2 style="font-size: 30px;">Mensalidades</h2>
+            <table class="tabelaMensalidades">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Mês</th>
+                        <th>Valor</th>
+                        <th>Desconto</th>
+                        <th>Data de Vencimento</th>
+                        <th>Status</th>
+                        <th>Data do Pagamento</th>
+                        <th>Forma de Pagamento</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for mensalidade in mensalidades %}
+                    <tr class="{% if mensalidade.status == 'Pago' %}status-pago{% elif mensalidade.status == 'Em Atraso' %}status-atrasado{% else %}status-pendente{% endif %}">
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ mensalidade.data_vencimento|date:"F" }}</td>
+                        <td>R$ {{ mensalidade.valor_final|default:"0.00" }}</td>
+                        <td>{{ mensalidade.desconto_percentual|floatformat:0 }} %</td>
+                        <td>{{ mensalidade.data_vencimento|date:"d/m/Y" }}</td>
+                        <td>{{ mensalidade.status }}</td>
+                        <td>
+                            {% if mensalidade.dia_pagamento_realizado %}
+                                {{ mensalidade.dia_pagamento_realizado }}
+                            {% else %}
+                                ---
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if mensalidade.status == "Pago" %}
+                                {{ mensalidade.forma_pagamento }}
+                            {% else %}
+                                <select name="forma_pagamento" class="form-select pagamento-select">
+                                    <option value="Dinheiro">Dinheiro</option>
+                                    <option value="Cartão">Cartão</option>
+                                    <option value="PIX">PIX</option>
+                                </select>
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            <form method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="mensalidade_id" value="{{ mensalidade.id }}">
+        
+                                {% if mensalidade.status == "Pago" %}
+                                    <button type="submit" name="acao" value="desmarcar_pago" class="btn btn-warning" onclick="return confirm('Tem certeza?')">
+                                        Desmarcar Pagamento
+                                    </button>
+                                {% else %}
+                                    <button type="submit" name="acao" value="marcar_pago" class="buttonPago" onclick="return validarPagamento(this)">
+                                        Marcar como Pago<svg class="svgIcon" viewBox="0 0 576 512"><path d="M512 80c8.8 0 16 7.2 16 16v32H48V96c0-8.8 7.2-16 16-16H512zm16 144V416c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V224H528zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H512c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm56 304c-13.3 0-24 10.7-24 24s10.7 24 24 24h48c13.3 0 24-10.7 24-24s-10.7-24-24-24H120zm128 0c-13.3 0-24 10.7-24 24s10.7 24 24 24H360c13.3 0 24-10.7 24-24s-10.7-24-24-24H248z"></path></svg>
+                                    </button>
+                                {% endif %}
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        </div>
+
+        <script>
+            function validarPagamento(botao) {
+                // Obtém o select na mesma linha do botão clicado
+                let linha = botao.closest("tr");
+                let select = linha.querySelector(".pagamento-select");
+        
+                // Verifica se o usuário selecionou uma forma de pagamento
+                if (!select || select.value === "") {
+                    alert("Por favor, selecione a forma de pagamento antes de confirmar.");
+                    return false; // Impede o envio do formulário
+                }
+        
+                // Adiciona um campo oculto ao formulário para enviar a escolha
+                let inputOculto = document.createElement("input");
+                inputOculto.type = "hidden";
+                inputOculto.name = "forma_pagamento";
+                inputOculto.value = select.value;
+                botao.closest("form").appendChild(inputOculto);
+        
+                return confirm("Confirme o pagamento.");
+            }
+        </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                document.querySelectorAll(".btn-pix").forEach(button => {
+                    button.addEventListener("click", function () {
+                        let mensalidadeId = this.getAttribute("data-mensalidade");
+    
+                        fetch(`/pix/gerar_qr/${mensalidadeId}/`)
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.qrcode) {
+                                    document.getElementById("pix_qrcode").src = data.qrcode;
+                                    document.getElementById("pix_copia_cola").value = data.pix_copia_cola;
+                                    document.getElementById("pix_modal").style.display = "block";
+                                } else {
+                                    alert("Erro ao gerar PIX: " + data.erro);
+                                }
+                            });
+                    });
+                });
+            });
+        </script>
+
+    <div id="pix_modal" style="display:none;">
+        <h3>Escaneie o QR Code ou copie o código PIX</h3>
+        <img id="pix_qrcode" src="" alt="QR Code PIX">
+        <input id="pix_copia_cola" type="text" readonly>
+        <button onclick="document.getElementById('pix_modal').style.display='none'">Fechar</button>
+    </div>
+
+        
+
+                    <div style="display: flex; justify-content: center; gap: 10px; margin-top: 3rem; margin-bottom: 2rem;">
+                <a href="{% url 'turmaDetalhes' aluno.turma.id %}" style="text-decoration: none;">
+                    <button class="voltareButton">Voltar</button>
+                </a>
+                <form method="POST" action="{% url 'excluirAluno' aluno.id %}" style="margin: 0;">
+                    {% csrf_token %}
+                    <button type="submit" class="excluirButton" onclick="return confirm('Tem certeza que deseja excluir este aluno?')">Excluir Aluno</button>
+                </form>
+            </div>
+
+
+    </body>
+{% endblock content %}

@@ -1,0 +1,163 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>Edufinance</title>
+</head>
+
+
+<body>
+    <nav>
+        {% block inicio %}<a href="{% url 'home' %}"><i class="fas fa-home"></i> Início</a>{% endblock inicio %}
+        <a href="#Sobre"><i class="fas fa-info-circle"></i> Sobre</a>
+        <a href="#">Configurações</a>
+        <a href="#">Sair</a>
+    </nav>
+    <main>
+        {% block content %}
+      <div>
+      
+      </div>
+      <div class="comeceContainer" style="display: flex; justify-content: center;">
+        <div class="comece">
+            <h1>EDUFINANCE</h1>
+            <h3></h3>
+            
+            <h3>Seja Bem-Vindo ao Edufinance! Se já é cadastrado, faça o login logo abaixo.</h3>
+            <div style="display: flex; justify-content: center; margin-top: 20px; ">
+            <a href="/login/"><button class="blueButton">Fazer Login</button></a></div>
+            <p>Caso seja novo por aqui, conheça nossa plataforma logo abaixo e faça o seu cadastro.</p>
+        </div>
+      </div>
+
+
+        <div class="containerDescricao">
+          <!-- Texto à esquerda -->
+          <div class="descricao">
+              <h1 style="display: flex; justify-content: center;">Sobre o Sistema</h1>
+              <p>
+                  Somos uma plataforma desenvolvida para facilitar a maneira como as
+                  escolas gerenciam suas operações diárias. Nosso objetivo é fornecer uma solução prática, eficiente e
+                  intuitiva para atender às necessidades de instituições de ensino.
+              </p>
+          </div>
+    
+
+
+
+        <!--  ----------------------- COMEÇO DO NOVO CARD -------------------------  --> 
+        <div class="card" style="margin-bottom: 30px;">
+            <div class="card__border"></div>
+            <div class="card_title__container">
+              <span class="card_title">Quais são as vantagens?</span>
+                  <!-- Nova descrição -->
+
+              <p class="card_paragraph" style="font-size: 17px;">Tenha uma variedade de ferramentas para gerir sua escola!</p>
+            </div>
+            <hr class="line" />
+            <ul class="card__list">
+              <li class="card__list_item">
+                <span class="check">
+                  <svg
+                    class="check_svg"
+                    fill="currentColor"
+                    viewBox="0 0 16 16"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      clip-rule="evenodd"
+                      d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z"
+                      fill-rule="evenodd"
+                    ></path>
+                  </svg>
+                </span>
+                <span class="list_text" style="font-size: 30px;">Monitore as finanças da sua escola!</span>
+              </li>
+              <li class="card__list_item">
+                <span class="check">
+                  <svg
+                    class="check_svg"
+                    fill="currentColor"
+                    viewBox="0 0 16 16"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      clip-rule="evenodd"
+                      d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z"
+                      fill-rule="evenodd"
+                    ></path>
+                  </svg>
+                </span>
+                <span class="list_text">Receba alertas importantes no seu feed!</span>
+              </li>
+              <li class="card__list_item">
+                <span class="check">
+                  <svg
+                    class="check_svg"
+                    fill="currentColor"
+                    viewBox="0 0 16 16"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      clip-rule="evenodd"
+                      d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z"
+                      fill-rule="evenodd"
+                    ></path>
+                  </svg>
+                </span>
+                <span class="list_text">Fique por dentro de todas as movimentações!</span>
+              </li>
+              <li class="card__list_item">
+                <span class="check">
+                  <svg
+                    class="check_svg"
+                    fill="currentColor"
+                    viewBox="0 0 16 16"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      clip-rule="evenodd"
+                      d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z"
+                      fill-rule="evenodd"
+                    ></path>
+                  </svg>
+                </span>
+                <span class="list_text">Gerencie seus alunos com facilidade!</span>
+              </li>
+              <li class="card__list_item">
+                <span class="check">
+                  <svg
+                    class="check_svg"
+                    fill="currentColor"
+                    viewBox="0 0 16 16"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      clip-rule="evenodd"
+                      d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z"
+                      fill-rule="evenodd"
+                    ></path>
+                  </svg>
+                </span>
+                <span class="list_text">Tenha auxílio contra a inadiplência!</span>
+              </li>
+            </ul>
+            <div style="display: flex; justify-content: center;">
+            <a href="/registrar/"><button class="buttonAcesso">Garanta já seu Acesso!</button></a></div>
+          </div>
+      </div>
+      
+        
+    </main>{% endblock %}
+<footer style="display: block; margin: 0; bottom: 0; width: 100%; ">
+    <p>&copy; 2025 Gestão Escolar. Todos os direitos reservados.</p>
+</footer>
+</body>
+
+
+</html>
